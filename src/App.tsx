@@ -49,6 +49,12 @@ export default function App() {
         {errorMessage ? ` | ${errorMessage}` : ""}
       </p>
       <table className="listing-table">
+        <colgroup>
+          <col className="col-name" />
+          <col className="col-description" />
+          <col className="col-updated" />
+          <col className="col-size" />
+        </colgroup>
         <thead>
           <tr>
             <th>Name</th>

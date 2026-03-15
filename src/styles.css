@@ -40,9 +40,9 @@ a:hover {
 }
 
 .page-shell {
-  max-width: 900px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 28px 16px 40px;
+  padding: 28px 24px 40px;
 }
 
 h1 {
@@ -68,9 +68,26 @@ h1 {
 .listing-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
   margin-top: 12px;
   background: var(--bg-soft);
   border: 1px solid var(--border);
+}
+
+.listing-table .col-name {
+  width: 34%;
+}
+
+.listing-table .col-description {
+  width: 38%;
+}
+
+.listing-table .col-updated {
+  width: 18%;
+}
+
+.listing-table .col-size {
+  width: 10%;
 }
 
 .listing-table th,
@@ -78,6 +95,20 @@ h1 {
   padding: 8px 12px;
   text-align: left;
   white-space: nowrap;
+}
+
+.listing-table th:first-child,
+.listing-table td:first-child {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.listing-table th:nth-child(2),
+.listing-table td:nth-child(2) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .listing-table thead th {
@@ -109,6 +140,8 @@ h1 {
 
 @media (max-width: 640px) {
   .page-shell {
+    padding-left: 16px;
+    padding-right: 16px;
     padding-top: 20px;
   }
 
