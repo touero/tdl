@@ -4,6 +4,8 @@ This is a React + Vite project deployed at Cloudflare.
 
 The homepage keeps an Apache-style directory listing, but the file data is read from Cloudflare R2 in real time. After you upload a new file to R2, it appears on the page as soon as you refresh the site.
 
+![preview](./.preview/preview.png)
+
 ## How It Works
 
 - The frontend is deployed as Cloudflare Workers Assets.
