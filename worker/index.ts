@@ -64,6 +64,25 @@ function getSha256(checksums: R2Checksums) {
   return checksums.toJSON().sha256 || "-";
 }
 
+function toHex(buffer: ArrayBuffer) {
+  return Array.from(new Uint8Array(buffer))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+async function computeSha256FromBody(
+  bucket: R2Bucket,
+  key: string
+): Promise<string> {
+  const object = await bucket.get(key);
+  if (!object) {
+    return "-";
+  }
+
+  const digest = await crypto.subtle.digest("SHA-256", await object.arrayBuffer());
+  return toHex(digest);
+}
+
 async function loadDescriptionMap(
   bucket: R2Bucket,
   metadataKey: string
@@ -98,12 +117,15 @@ async function listAllFiles(bucket: R2Bucket, prefix: string): Promise<DownloadF
         continue;
       }
 
+      const sha256 = getSha256(object.checksums);
+
       files.push({
         name: getDisplayName(object.key),
         description: descriptions[object.key] || "-",
         size: formatSize(object.size),
         updatedAt: formatDate(object.uploaded),
-        sha256: getSha256(object.checksums),
+        sha256:
+          sha256 !== "-" ? sha256 : await computeSha256FromBody(bucket, object.key),
         url: `/api/download?key=${encodeURIComponent(object.key)}`
       });
     }

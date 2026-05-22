@@ -122,10 +122,10 @@ export default function App() {
                   className="copy-btn"
                   onClick={() => void copyHash(file.sha256)}
                   disabled={file.sha256 === "-"}
-                  aria-label={`复制 ${file.name} 的 SHA-256`}
-                  title={copiedHash === file.sha256 ? "已复制" : "复制完整 SHA-256"}
+                  aria-label={`Copy SHA-256 of ${file.name}`}
+                  title={copiedHash === file.sha256 ? "Copied" : "Copy full SHA-256"}
                 >
-                  {copiedHash === file.sha256 ? "已复制" : "复制"}
+                  <span aria-hidden="true">{copiedHash === file.sha256 ? "✓" : "⧉"}</span>
                 </button>
               </td>
             </tr>
