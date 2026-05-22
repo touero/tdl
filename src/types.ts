@@ -3,6 +3,7 @@ export interface DownloadFile {
   description: string;
   size: string;
   updatedAt: string;
+  sha256: string;
   url: string;
 }
 

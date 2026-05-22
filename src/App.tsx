@@ -1,10 +1,35 @@
 import { useEffect, useState } from "react";
 import type { DownloadFile, FilesApiResponse } from "./types";
 
+function shortSha256(value: string) {
+  if (!value || value === "-" || value.length <= 16) {
+    return value || "-";
+  }
+
+  return `${value.slice(0, 8)}…${value.slice(-8)}`;
+}
+
 export default function App() {
   const [files, setFiles] = useState<DownloadFile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [copiedHash, setCopiedHash] = useState("");
+
+  async function copyHash(value: string) {
+    if (!value || value === "-") {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopiedHash(value);
+      window.setTimeout(() => {
+        setCopiedHash((current) => (current === value ? "" : current));
+      }, 1200);
+    } catch {
+      setErrorMessage("复制失败，请检查浏览器权限。");
+    }
+  }
 
   useEffect(() => {
     let isMounted = true;
@@ -43,7 +68,12 @@ export default function App() {
 
   return (
     <main className="page-shell">
-      <h1>Index of /downloads</h1>
+      <div className="title-row">
+        <h1>Index of /downloads</h1>
+        <a className="repo-link" href="https://github.com/touero/tdl" target="_blank" rel="noreferrer">
+          Repo
+        </a>
+      </div>
       <p className="status-line">
         {isLoading ? "Loading file index..." : `Total ${files.length} file(s)`}
         {errorMessage ? ` | ${errorMessage}` : ""}
@@ -54,6 +84,7 @@ export default function App() {
           <col className="col-description" />
           <col className="col-updated" />
           <col className="col-size" />
+          <col className="col-sha256" />
         </colgroup>
         <thead>
           <tr>
@@ -61,6 +92,7 @@ export default function App() {
             <th>Description</th>
             <th>Last modified</th>
             <th>Size</th>
+            <th>SHA-256</th>
           </tr>
         </thead>
         <tbody>
@@ -71,6 +103,7 @@ export default function App() {
             <td data-label="Description">Parent Directory</td>
             <td data-label="Last modified">-</td>
             <td data-label="Size">-</td>
+            <td data-label="SHA-256">-</td>
           </tr>
           {files.map((file) => (
             <tr key={file.url}>
@@ -82,10 +115,28 @@ export default function App() {
               <td data-label="Description">{file.description}</td>
               <td data-label="Last modified">{file.updatedAt}</td>
               <td data-label="Size">{file.size}</td>
+              <td data-label="SHA-256" className="sha-cell">
+                <code title={file.sha256}>{shortSha256(file.sha256)}</code>
+                <button
+                  type="button"
+                  className="copy-btn"
+                  onClick={() => void copyHash(file.sha256)}
+                  disabled={file.sha256 === "-"}
+                  aria-label={`复制 ${file.name} 的 SHA-256`}
+                  title={copiedHash === file.sha256 ? "已复制" : "复制完整 SHA-256"}
+                >
+                  {copiedHash === file.sha256 ? "已复制" : "复制"}
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <footer className="page-note">
+        <p>
+          Copyright © 2026 weiensong.
+        </p>
+      </footer>
     </main>
   );
 }
