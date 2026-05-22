@@ -60,6 +60,10 @@ function getMetadataKey(prefix: string) {
   return `${prefix}_meta.json`;
 }
 
+function getSha256(checksums: R2Checksums) {
+  return checksums.toJSON().sha256 || "-";
+}
+
 async function loadDescriptionMap(
   bucket: R2Bucket,
   metadataKey: string
@@ -99,6 +103,7 @@ async function listAllFiles(bucket: R2Bucket, prefix: string): Promise<DownloadF
         description: descriptions[object.key] || "-",
         size: formatSize(object.size),
         updatedAt: formatDate(object.uploaded),
+        sha256: getSha256(object.checksums),
         url: `/api/download?key=${encodeURIComponent(object.key)}`
       });
     }

@@ -45,12 +45,24 @@ a:hover {
   padding: 28px 24px 40px;
 }
 
+.title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 h1 {
   margin: 0 0 12px;
   font-size: 2rem;
   font-weight: 700;
   color: var(--yellow);
   text-shadow: 0 0 18px rgba(250, 189, 47, 0.08);
+}
+
+.repo-link {
+  flex-shrink: 0;
+  font-size: 0.92rem;
 }
 
 .page-shell::after {
@@ -75,19 +87,23 @@ h1 {
 }
 
 .listing-table .col-name {
-  width: 34%;
+  width: 26%;
 }
 
 .listing-table .col-description {
-  width: 38%;
+  width: 28%;
 }
 
 .listing-table .col-updated {
-  width: 18%;
+  width: 16%;
 }
 
 .listing-table .col-size {
-  width: 10%;
+  width: 8%;
+}
+
+.listing-table .col-sha256 {
+  width: 22%;
 }
 
 .listing-table th,
@@ -134,8 +150,58 @@ h1 {
   color: var(--orange);
 }
 
+.listing-table tbody td:nth-child(5) {
+  color: var(--text-dim);
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.sha-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sha-cell code {
+  font-family: inherit;
+  font-size: 0.92rem;
+}
+
+.copy-btn {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+.copy-btn:hover:enabled {
+  color: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.copy-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .listing-table tbody tr:first-child td {
   color: var(--text-dim);
+}
+
+.page-note {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 0.92rem;
+}
+
+.page-note p {
+  margin: 0;
 }
 
 @media (max-width: 640px) {
@@ -147,10 +213,18 @@ h1 {
 
   h1 {
     font-size: 1.6rem;
+    margin-bottom: 0;
+  }
+
+  .title-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .status-line {
     font-size: 0.92rem;
+    margin-top: 12px;
   }
 
   .listing-table {
@@ -201,5 +275,15 @@ h1 {
 
   .listing-table tbody tr:hover td {
     background: transparent;
+  }
+
+  .page-note {
+    font-size: 0.88rem;
+  }
+
+  .sha-cell {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
   }
 }
