@@ -115,9 +115,16 @@ h1 {
 
 .listing-table th:first-child,
 .listing-table td:first-child {
-  white-space: normal;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listing-table td:first-child a {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .listing-table th:nth-child(2),

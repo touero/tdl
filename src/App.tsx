@@ -108,7 +108,7 @@ export default function App() {
           {files.map((file) => (
             <tr key={file.url}>
               <td data-label="Name">
-                <a href={file.url} download>
+                <a href={file.url} download title={file.name}>
                   {file.name}
                 </a>
               </td>
